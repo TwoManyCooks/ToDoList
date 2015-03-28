@@ -230,7 +230,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
   }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
-        // TODO add your handling code here:
+        System.out.println(jXDatePicker1.getDate().toString());
     }//GEN-LAST:event_jXDatePicker1ActionPerformed
 
   /**
