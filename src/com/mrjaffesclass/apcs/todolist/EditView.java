@@ -74,6 +74,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
     switch (action) {
       case "save":
         messenger.notify("saveItem", item, true);
+        
         break;
         
       case "delete":
@@ -231,6 +232,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
 
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
         // TODO add your handling code here:
+        System.out.println(jXDatePicker1.getDate().toString());
     }//GEN-LAST:event_jXDatePicker1ActionPerformed
 
   /**
