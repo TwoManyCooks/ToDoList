@@ -1,5 +1,7 @@
 package com.mrjaffesclass.apcs.todolist;
-/**
+import java.util.*;
+import java.text.*;
+/*
  * To do item
  * 
  * @author Roger Jaffe
@@ -15,7 +17,11 @@ public class ToDoItem {
   private int id;               
   private String description;
   private boolean done;
-  private String date;
+  private Date date1;
+  private Date date;
+  private String dates;
+  private final DateFormat format = new SimpleDateFormat("EEE MM/dd");
+//  private final DateFormat formatter = new SimpleDateFormat("EEE MMM dd", Locale.ENGLISH);
   
   /**
    * Constructor with done set to false in constructor
@@ -46,10 +52,10 @@ public class ToDoItem {
    * @param _description  Description of to do item
    * @param _date         Date of the to do item
    */
-  public ToDoItem(int _id, String _description, String _date) {
+  public ToDoItem(int _id, String _description, Date _date) {
     description = _description;
     id = _id;
-    date = _date;
+    date1 = _date;
     done = false;     // Default to not completed
   }
   
@@ -60,11 +66,11 @@ public class ToDoItem {
    * @param _done         Done flag
    * @param _date         Date of the to do item
    */
-  public ToDoItem(int _id, String _description, boolean _done, String _date) {
+  public ToDoItem(int _id, String _description, boolean _done, Date _date) {
     description = _description;
     id = _id;
     done = _done;     // Default to not completed
-    date = _date;
+    date1 = _date;
   }
 
   /**
@@ -126,16 +132,50 @@ public class ToDoItem {
    * Get the to do item date
    * @return The date of to do item
    */
-  public String getDate() {
-    return date;
+  public String getDate2() {
+      try{
+        dates = format.format(date1);
+        System.out.println("Dates " + dates);
+        System.out.println("Date1 " + date1);
+        System.out.println("Date " + date);
+        return dates;
+      }
+      catch (Exception ex){
+          System.out.println(ex);
+      }
+      return dates;     
   }
-  
-   /**
+    /**
+   * Get the to do item date
+   * @return The date of to do item
+   */
+  public Date getDate() {
+      return date1;     
+  } 
+    /**
+   * Get the to do item date
+   * @return The date of to do item
+   */
+ /* public Date getDates() {   
+    return getDate();
+  }  */
+
+  /**
+   * Set the to do item date
+   * @param date The value to be set
+   */
+  public void setDate1(Date date) {
+    this.date1 = date;
+    
+  }  
+
+  /**
    * Set the to do item date
    * @param date The value to be set
    */
   public void setDate(String date) {
-    this.date = date;
+    this.dates = date;
+    
   }
   /**
    * Transfer the description and done flag of another to do item into this one
@@ -143,6 +183,7 @@ public class ToDoItem {
    */
   public void merge(ToDoItem anotherItem) {
     this.setDescription(anotherItem.getDescription());
+    this.setDate(anotherItem.getDate2());
     this.setDone(anotherItem.isDone());    
   }
 

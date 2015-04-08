@@ -1,6 +1,6 @@
 package com.mrjaffesclass.apcs.todolist;
 import com.mrjaffesclass.apcs.messenger.*;
-
+//import java.util.*;
 /**
  * View for editing to do items
  * 
@@ -66,8 +66,8 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
     item.setDone(completedCheckBox.isSelected());
   }
   
-  private void getDate() {
-    item.setDate(jXDatePicker1.getDate().toString());
+  private void getDate1() {    
+    item.setDate1(jXDatePicker1.getDate());
   }
   
   /**
@@ -75,7 +75,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
    * @param action "save" or "delete"
    */
   private void itemAction(String action) {
-    getDate();
+    getDate1();
     getValues();
     switch (action) {
       case "save":
@@ -157,6 +157,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
             }
         });
 
+        jXDatePicker1.setLightWeightPopupEnabled(false);
         jXDatePicker1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXDatePicker1ActionPerformed(evt);
