@@ -53,6 +53,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
    * Initialize the values in the edit fields
    */
   private void setFieldValues() {
+    jXDatePicker1.setDate(item.getDate());
     descriptionText.setText(item.getDescription());
     completedCheckBox.setSelected(item.isDone());
   }
@@ -65,11 +66,16 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
     item.setDone(completedCheckBox.isSelected());
   }
   
+  private void getDate() {
+    item.setDate(jXDatePicker1.getDate().toString());
+  }
+  
   /**
    * Save or delete the item as appropriate
    * @param action "save" or "delete"
    */
   private void itemAction(String action) {
+    getDate();
     getValues();
     switch (action) {
       case "save":
@@ -80,6 +86,10 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
       case "delete":
         messenger.notify("deleteItem", item, true);
         break;
+/*          
+      case "dated":
+        messenger.notify("datedItem", item, true );
+        break;*/
     }
   }
 
@@ -232,6 +242,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
 
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
         // TODO add your handling code here:
+    //itemAction("dated");    
         System.out.println(jXDatePicker1.getDate().toString());
     }//GEN-LAST:event_jXDatePicker1ActionPerformed
 
