@@ -1,6 +1,6 @@
 package com.mrjaffesclass.apcs.todolist;
 import com.mrjaffesclass.apcs.messenger.*;
-
+//import java.util.*;
 /**
  * View for editing to do items
  * 
@@ -53,6 +53,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
    * Initialize the values in the edit fields
    */
   private void setFieldValues() {
+    jXDatePicker1.setDate(item.getDate());
     descriptionText.setText(item.getDescription());
     completedCheckBox.setSelected(item.isDone());
   }
@@ -63,22 +64,33 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
   private void getValues() {
     item.setDescription(descriptionText.getText());
     item.setDone(completedCheckBox.isSelected());
+    item.setDate(jXDatePicker1.getDate());
   }
+  
+/*  private void getDate1() {    
+    item.setDate1(jXDatePicker1.getDate());
+  }*/
   
   /**
    * Save or delete the item as appropriate
    * @param action "save" or "delete"
    */
   private void itemAction(String action) {
+//    getDate1();
     getValues();
     switch (action) {
       case "save":
         messenger.notify("saveItem", item, true);
+        
         break;
         
       case "delete":
         messenger.notify("deleteItem", item, true);
         break;
+/*          
+      case "dated":
+        messenger.notify("datedItem", item, true );
+        break;*/
     }
   }
 
@@ -146,6 +158,7 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
             }
         });
 
+        jXDatePicker1.setLightWeightPopupEnabled(false);
         jXDatePicker1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jXDatePicker1ActionPerformed(evt);
@@ -160,13 +173,12 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cancelBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(okBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(cancelBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(okBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(16, 16, 16)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -232,6 +244,8 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
 
     private void jXDatePicker1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jXDatePicker1ActionPerformed
         // TODO add your handling code here:
+    //itemAction("dated");    
+        System.out.println(jXDatePicker1.getDate().toString());
     }//GEN-LAST:event_jXDatePicker1ActionPerformed
 
   /**
