@@ -39,6 +39,8 @@ public class AppModel implements MessageHandler {
     messenger.subscribe("saveItem", this);
     messenger.subscribe("deleteItem", this);
     messenger.subscribe("removeCompletedItems", this);
+    messenger.subscribe("SortDown", this);
+    messenger.subscribe("SortUp", this);
   }
 
   // This method implements the messageHandler method defined in
@@ -91,6 +93,16 @@ public class AppModel implements MessageHandler {
         removeCompletedItems();
         messenger.notify("saved");
         messenger.notify("items", this.getItems());
+        break;
+      case "SortDown":
+        sortByDate(true);
+        messenger.notify("saved", null, true);
+        messenger.notify("items", this.getItems(), true);
+        break;
+      case "SortUp":
+        sortByDate(false);
+        messenger.notify("saved", null, true);
+        messenger.notify("items", this.getItems(), true);            
     }
   }
 
@@ -186,4 +198,43 @@ public class AppModel implements MessageHandler {
       toDoList.add(item);
     }
   }
+  
+   public void sortByDate(boolean earliestFirst) {
+      boolean notSorted;
+      int lastItemWithDate = toDoList.size();
+      ToDoItem temp = new ToDoItem(-1, "Because if first date is null sort fails", true, new Date());
+      toDoList.add(0,temp);
+      do {
+          notSorted = false;
+          for(int j = 0; j < lastItemWithDate; j++){
+              try{
+                if(toDoList.get(j).getDate().after(toDoList.get(j+1).getDate())
+                        == earliestFirst) {
+                  //swap to the desired order
+                  toDoList.add(j+1, toDoList.remove(j));
+                  notSorted = true;
+              } } catch(NullPointerException nullDateInJ_Or_JPlusOne) {
+                //Put it at the end of the list and continue sorting without it
+                lastItemWithDate--;
+                notSorted = true;
+                //we got rid of the object, 
+                //and a new thing is in it's place to look at,
+                j--;
+                try{
+                   //Checks to see where the null was
+                   toDoList.get(j+1).getDate();
+                   //If the last line doesn't throw an error, the error is in j+1
+                   //Put it to the end of the list
+                   toDoList.add(toDoList.remove(j+2));
+                } catch(NullPointerException nullDateInJPlusOne) {
+                  //If j+1 threw an exception in our other catch, it's the error
+                  //Put it to the end of the list, and ignore it for sorting
+                  toDoList.add(toDoList.remove(j+1));
+              }
+             }
+          }
+      } while(notSorted);
+      deleteItem(temp);
+  }  
+  
 }

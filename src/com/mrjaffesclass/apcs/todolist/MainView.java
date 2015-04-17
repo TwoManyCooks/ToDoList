@@ -16,7 +16,8 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
   private final int ID_FIELD = 0;
   private final int DONE_FIELD = 1;
   private final int DESCRIPTION_FIELD = 2;
-  private final int DATE_FIELD = 3;
+  private final int DATES_FIELD = 3;
+  private final int DATE_FIELD = 4;
   
   private final int DONE_COLUMN = 0;
   
@@ -45,8 +46,9 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
     // Remove the ID column and set the row height
     jTable1.getColumnModel().getColumn(DONE_FIELD).setPreferredWidth(DONE_FIELD_WIDTH);  // Set width of checkbox column
     jTable1.getColumnModel().getColumn(DESCRIPTION_FIELD).setPreferredWidth(DESCRIPTION_FIELD_WIDTH);  // Set width of checkbox column
-    jTable1.getColumnModel().getColumn(DATE_FIELD).setPreferredWidth(DATE_FIELD_WIDTH); // set width of date column
     jTable1.removeColumn(jTable1.getColumnModel().getColumn(ID_FIELD));  // Remove the ID column from the table
+    jTable1.getColumnModel().getColumn(DATES_FIELD).setPreferredWidth(DATE_FIELD_WIDTH);
+    jTable1.removeColumn(jTable1.getColumnModel().getColumn(DATES_FIELD));
     jTable1.setRowHeight(ROW_HEIGHT);
   }
   
@@ -102,7 +104,16 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
       tableModel.setValueAt(item.getId(), i, ID_FIELD);
       tableModel.setValueAt(item.isDone(), i, DONE_FIELD);
       tableModel.setValueAt(item.getDescription(), i, DESCRIPTION_FIELD);
-      tableModel.setValueAt(item.getDate2(), i, DATE_FIELD);
+        if (item.getDate() == null)
+        {
+            tableModel.setValueAt(null, i, DATES_FIELD);
+            tableModel.setValueAt(null, i, DATE_FIELD);
+        }
+        else
+        {
+            tableModel.setValueAt(format.format(item.getDate()), i, DATES_FIELD);
+            tableModel.setValueAt(item.getDate(), i, DATE_FIELD);
+        }
     }
 }
   
@@ -156,6 +167,8 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
         newItemBtn = new javax.swing.JButton();
         aboutBtn = new javax.swing.JButton();
         removeCompleteItemsBtn = new javax.swing.JButton();
+        SortDown = new javax.swing.JButton();
+        SortUp = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -164,11 +177,11 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
 
             },
             new String [] {
-                "id", "Complete", "Description", "Date"
+                "id", "Complete", "Description", "Date", "Dates"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.Integer.class, java.lang.Boolean.class, java.lang.String.class, java.lang.Object.class
+                java.lang.Integer.class, java.lang.Boolean.class, java.lang.String.class, java.lang.String.class, java.lang.Object.class
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -205,15 +218,33 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
             }
         });
 
+        SortDown.setText("Sort v");
+        SortDown.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SortDownActionPerformed(evt);
+            }
+        });
+
+        SortUp.setText("Sort ^");
+        SortUp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SortUpActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(newItemBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(38, 38, 38)
+                .addGap(37, 37, 37)
                 .addComponent(removeCompleteItemsBtn)
-                .addGap(175, 175, 175)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(SortUp)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(SortDown)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(aboutBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addComponent(jScrollPane2)
         );
@@ -224,7 +255,9 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(newItemBtn)
                     .addComponent(aboutBtn)
-                    .addComponent(removeCompleteItemsBtn))
+                    .addComponent(removeCompleteItemsBtn)
+                    .addComponent(SortDown)
+                    .addComponent(SortUp))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 439, Short.MAX_VALUE)
                 .addContainerGap())
@@ -265,11 +298,21 @@ public class MainView extends javax.swing.JFrame implements MessageHandler {
     dialog.setVisible(true);
   }//GEN-LAST:event_aboutBtnActionPerformed
 
+    private void SortDownActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortDownActionPerformed
+        messenger.notify("SortDown");
+    }//GEN-LAST:event_SortDownActionPerformed
+
+    private void SortUpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SortUpActionPerformed
+        messenger.notify("SortUp");
+    }//GEN-LAST:event_SortUpActionPerformed
+
   /**
    * @param args the command line arguments
    */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton SortDown;
+    private javax.swing.JButton SortUp;
     private javax.swing.JButton aboutBtn;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable1;
