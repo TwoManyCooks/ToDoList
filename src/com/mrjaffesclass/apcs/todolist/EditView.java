@@ -64,18 +64,19 @@ public class EditView extends javax.swing.JDialog implements MessageHandler {
   private void getValues() {
     item.setDescription(descriptionText.getText());
     item.setDone(completedCheckBox.isSelected());
+    item.setDate(jXDatePicker1.getDate());
   }
   
-  private void getDate1() {    
+/*  private void getDate1() {    
     item.setDate1(jXDatePicker1.getDate());
-  }
+  }*/
   
   /**
    * Save or delete the item as appropriate
    * @param action "save" or "delete"
    */
   private void itemAction(String action) {
-    getDate1();
+//    getDate1();
     getValues();
     switch (action) {
       case "save":
